@@ -6,6 +6,9 @@ const Card = styled.div`
   border: 1px solid ${BORDER};
   width: 100%;
   padding: 16px;
+  & + & {
+    margin-top: 16px;
+  }
 `;
 
 export default Card;

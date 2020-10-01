@@ -36,7 +36,9 @@ export const TodoContext = createContext(defaultTodoContext);
 type iTodoProviderProps = React.PropsWithChildren<{}>;
 
 export default function TodoProvider({ children }: iTodoProviderProps) {
-  const [todos, setTodos] = useState<iTodoContext["todos"]>(defaultTodoContext.todos);
+  const [todos, setTodos] = useState<iTodoContext["todos"]>(
+    defaultTodoContext.todos
+  );
 
   const addTodo: iTodoContext["addTodo"] = (todo) => {
     setTodos((prevTodos) => [...prevTodos, todo]);

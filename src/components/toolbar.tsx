@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import useDebouncedState from "../hooks/useDebouncedState";
 
 import { TodoContext } from "../providers/todo";
 
@@ -7,17 +8,40 @@ interface iToolbarProps {
 }
 
 export default function Toolbar({ title }: iToolbarProps) {
-  const [enableDebounce, setEnabledDebounce] = useState(false);
+  console.log("Toolbar: render");
   const debounceRef = useRef<number>();
   const { todos } = useContext(TodoContext);
+  const [enableDebounce, setEnabledDebounce] = useState(false);
+  const completedCount = useMemo(() => {
+    console.log("Toolbar: calculate completed count");
+    return todos.filter(({ isComplete }) => isComplete).length;
+  }, [todos]);
+
+  const [debouncedValue, setDebouncedValue] = useDebouncedState(
+    "Some initial value"
+  );
+
+  // useEffect(() => {
+  //   if (enableDebounce) {
+  //     console.log("Toolbar: useEffect: [todos]:", todos.length);
+
+  //     debounceRef.current && clearTimeout(debounceRef.current);
+  //     debounceRef.current = setTimeout(() => {
+  //       setEnabledDebounce(false);
+  //       alert(`Debounced each time... Too much to do! (${todos.length})`);
+  //     }, 2000);
+  //   }
+
+  //   return () => {
+  //     console.log("Toolbar: useEffect: unmount:");
+  //     debounceRef.current && clearTimeout(debounceRef.current);
+  //   };
+  // }, [todos]);
 
   useEffect(() => {
     if (enableDebounce) {
-      console.log("todos changed", todos.length);
-      debounceRef.current && clearTimeout(debounceRef.current);
-      debounceRef.current = setTimeout(() => {
-        alert(`Things change, yo! You have too many things to do! (${todos.length})`)
-      }, 1000);
+      console.log("Toolbar: useEffect: [todos]:", todos.length);
+      setDebouncedValue(`${new Date().toLocaleTimeString()} - All the todos! ${completedCount}`);
     }
   }, [todos]);
 
@@ -27,10 +51,11 @@ export default function Toolbar({ title }: iToolbarProps) {
       <hr />
 
       <button onClick={() => setEnabledDebounce(!enableDebounce)}>
-        Debounce {enableDebounce ? "on" : "off"}
+        Debounce is {enableDebounce ? "ON" : "OFF"}
       </button>
 
       <div style={{ textAlign: "right" }}>You have {todos.length} todo(s).</div>
+      <div style={{ textAlign: "right" }}>{completedCount}'s completed.</div>
     </div>
   );
 }

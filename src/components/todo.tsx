@@ -45,6 +45,8 @@ interface iTodoProps {
 }
 
 export function Todo({ todo, onComplete, onDelete }: iTodoProps) {
+  console.log("Todo: render: ", todo.id);
+
   return (
     <TodoContainer isComplete={todo.isComplete}>
       <Label>{todo.content}</Label>

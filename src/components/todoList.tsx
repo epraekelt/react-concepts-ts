@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
+import React, { forwardRef, useContext } from "react";
 
 import { TodoContext } from "../providers/todo";
 import { Todo } from "./todo";
 import TodoInput from "./todoInput";
 
-export default function TodoList() {
+const TodoList = forwardRef<HTMLDivElement>((props, ref) => {
   const { todos, onCompleteTodo, onDeleteTodo } = useContext(TodoContext);
 
   return (
-    <div>
+    <div ref={ref}>
       {todos.map((todo) => (
         <Todo
           key={todo.id}
@@ -21,4 +21,6 @@ export default function TodoList() {
       <TodoInput />
     </div>
   );
-}
+});
+
+export default TodoList;
