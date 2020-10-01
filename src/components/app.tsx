@@ -15,7 +15,9 @@ export default function App() {
     <Container>
       <TodoProvider>
         <Card>
-          <button onClick={() => setShow(!show)}>Hide Toolbar 😱</button>
+          <button onClick={() => setShow(!show)}>
+            {show ? "Hide" : "Show"} Toolbar 😱
+          </button>
 
           <hr />
 

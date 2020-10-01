@@ -17,33 +17,33 @@ export default function Toolbar({ title }: iToolbarProps) {
     return todos.filter(({ isComplete }) => isComplete).length;
   }, [todos]);
 
-  const [debouncedValue, setDebouncedValue] = useDebouncedState(
-    "Some initial value"
-  );
-
-  // useEffect(() => {
-  //   if (enableDebounce) {
-  //     console.log("Toolbar: useEffect: [todos]:", todos.length);
-
-  //     debounceRef.current && clearTimeout(debounceRef.current);
-  //     debounceRef.current = setTimeout(() => {
-  //       setEnabledDebounce(false);
-  //       alert(`Debounced each time... Too much to do! (${todos.length})`);
-  //     }, 2000);
-  //   }
-
-  //   return () => {
-  //     console.log("Toolbar: useEffect: unmount:");
-  //     debounceRef.current && clearTimeout(debounceRef.current);
-  //   };
-  // }, [todos]);
+  // const [debouncedValue, setDebouncedValue] = useDebouncedState(
+  //   "Some initial value"
+  // );
 
   useEffect(() => {
     if (enableDebounce) {
       console.log("Toolbar: useEffect: [todos]:", todos.length);
-      setDebouncedValue(`${new Date().toLocaleTimeString()} - All the todos! ${completedCount}`);
+
+      debounceRef.current && clearTimeout(debounceRef.current);
+      debounceRef.current = setTimeout(() => {
+        setEnabledDebounce(false);
+        alert(`Debounced each time... Too much to do! (${todos.length})`);
+      }, 2000);
     }
+
+    return () => {
+      console.log("Toolbar: useEffect: unmount:");
+      debounceRef.current && clearTimeout(debounceRef.current);
+    };
   }, [todos]);
+
+  // useEffect(() => {
+  //   if (enableDebounce) {
+  //     console.log("Toolbar: useEffect: [todos]:", todos.length);
+  //     setDebouncedValue(`${new Date().toLocaleTimeString()} - All the todos! ${completedCount}`);
+  //   }
+  // }, [todos]);
 
   return (
     <div>
@@ -51,7 +51,7 @@ export default function Toolbar({ title }: iToolbarProps) {
       <hr />
 
       <button onClick={() => setEnabledDebounce(!enableDebounce)}>
-        Debounce is {enableDebounce ? "ON" : "OFF"}
+        {enableDebounce ? "Disable" : "Enable"} Debounce
       </button>
 
       <div style={{ textAlign: "right" }}>You have {todos.length} todo(s).</div>
