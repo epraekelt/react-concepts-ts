@@ -1,8 +1,38 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import { iTodo } from "./types";
+
+async function searchStuffOnApi(name: string) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 1000);
+  });
+}
 
 interface Props {
   name: string;
+}
+
+/* useCallback */
+
+function HelloWorldCallback({ name }: Props) {
+  const [searchTerm, setSearchValue] = useState("");
+
+  // const onSubmit = async () => {
+  //   await searchStuffOnApi(searchTerm);
+  // };
+
+  const onSubmit = useCallback(async () => {
+    await searchStuffOnApi(searchTerm)
+  }, [searchTerm])
+
+  const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  }, [setSearchValue]);
+
+  return (
+    <form onSubmit={onSubmit}>
+      <input value={searchTerm} onChange={onChange} />
+    </form>
+  );
 }
 
 /* useEffect */
@@ -86,7 +116,7 @@ function FalsyRendering() {
         <ul>
           {persons.map((person) => (
             <li></li>
-            ))}
+          ))}
         </ul>
       )}
 
@@ -100,7 +130,7 @@ function FalsyRendering() {
 function Uncontrolled() {
   const onSubmit = () => {
     // do stuff
-  }
+  };
 
   return (
     <form onSubmit={onSubmit}>
