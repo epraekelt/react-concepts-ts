@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import TodoProvider from "../providers/todo";
+import TodoProvider, { TodoContext } from "../providers/todo";
 import Card from "../shared/components/card";
 import Container from "./container";
 import TodoList from "./todoList";
@@ -30,6 +30,10 @@ export default function App() {
           <TodoList />
         </Card>
       </TodoProvider>
+
+      {/* <TodoContext.Provider value={{ todos: [], addTodo: (todo) => {} }}>
+        hello
+      </TodoContext.Provider> */}
     </Container>
   );
 }
