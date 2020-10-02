@@ -22,11 +22,11 @@ function HelloWorldCallback({ name }: Props) {
 
   const onSubmit = useCallback(async () => {
     await searchStuffOnApi(searchTerm)
-  }, [searchTerm])
+  }, [searchTerm]);
 
   const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
-  }, [setSearchValue]);
+  }, []);
 
   return (
     <form onSubmit={onSubmit}>
